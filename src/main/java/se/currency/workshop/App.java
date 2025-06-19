@@ -15,19 +15,22 @@ public class App {
         CurrencyResponse response = gson.fromJson(json, CurrencyResponse.class);
         CurrencyService service = new CurrencyService();
         service.setCurrencyResponse(response);
-        // Meny
-        System.out.println("Växelkurser från " + response.getSource());
-        System.out.println("Exempel: USD till SEK eller SEK till USD");
-        System.out.print("Ange från-valuta (t.ex. USD): ");
+
+        // Menu
+        System.out.println("Exchange rates from " + response.getSource());
+        System.out.println("Example: USD to SEK or SEK to USD");
+        System.out.print("Enter source currency (e.g. USD): ");
         String from = scanner.nextLine().trim().toUpperCase();
 
-        System.out.print("Ange till-valuta (t.ex. SEK): ");
+        System.out.print("Enter target currency (e.g. SEK): ");
         String to = scanner.nextLine().trim().toUpperCase();
 
-        System.out.print("Ange belopp: ");
+        System.out.print("Enter amount: ");
         double amount = scanner.nextDouble();
+
         double sek = service.convertUsdToSek(amount);
         double backToUsd = service.convertSekToUsd(sek);
+
         System.out.printf("%.2f SEK = %.2f USD%n", sek, backToUsd);
     }
 }
