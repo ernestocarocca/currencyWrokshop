@@ -34,4 +34,18 @@ public class CurrencyService {
 
         return amountSek / rate;
     }
+
+    public double convertEuroToSek(double amountInEuro) throws IllegalAccessException {
+        if (currencyResponse == null || currencyResponse.getQuotes() == null) {
+            throw new IllegalStateException("Currency data is missing.");
+        }
+        Double usdSek = currencyResponse.getQuotes().get("USDSEK");
+        Double usdEur = currencyResponse.getQuotes().get("USDEUR");
+        if (usdSek == null || usdEur == null) {
+            throw new IllegalArgumentException("Missing exchange rate for USDSEK or USDEUR.");
+        }
+
+        double eurSek = usdSek / usdEur;
+        return amountInEuro * eurSek;
+}
 }

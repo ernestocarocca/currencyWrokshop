@@ -15,22 +15,32 @@ public class App {
         CurrencyResponse response = gson.fromJson(json, CurrencyResponse.class);
         CurrencyService service = new CurrencyService();
         service.setCurrencyResponse(response);
-
         // Menu
         System.out.println("Exchange rates from " + response.getSource());
-        System.out.println("Example: USD to SEK or SEK to USD");
-        System.out.print("Enter source currency (e.g. USD): ");
-        String from = scanner.nextLine().trim().toUpperCase();
-
-        System.out.print("Enter target currency (e.g. SEK): ");
-        String to = scanner.nextLine().trim().toUpperCase();
-
-        System.out.print("Enter amount: ");
+        System.out.println("Choose an option:");
+        System.out.println("1. USD to SEK");
+        System.out.println("2. SEK to USD");
+        System.out.print("Enter your choice (1 or 2): ");
+        int choice = scanner.nextInt();
+        System.out.println("insert your number ");
         double amount = scanner.nextDouble();
 
-        double sek = service.convertUsdToSek(amount);
-        double backToUsd = service.convertSekToUsd(sek);
-
-        System.out.printf("%.2f SEK = %.2f USD%n", sek, backToUsd);
+        switch (choice) {
+            case 1:
+                double usdToSek = service.convertUsdToSek(amount);
+                System.out.printf("amount: %.2f kr%n", usdToSek);
+                break;
+            case 2:
+                double sekToUsd = service.convertSekToUsd(amount);
+                System.out.printf("%.2f SEK = %.2f USD%n", amount, sekToUsd);
+                break;
+            case 3:
+               double euroToSek = service.convertEuroToSek(amount);
+                System.out.printf("100 EUR = %.2f SEK%n", euroToSek);
+                break;
+            default:
+                System.out.println("%.2f Invalid option.");
+        }
     }
+
 }
