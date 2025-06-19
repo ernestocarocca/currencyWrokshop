@@ -5,7 +5,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class FetchCurrency {
-    public static void main(String[] args) throws Exception {
+    public static String fetch() throws Exception {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
@@ -14,9 +14,9 @@ public class FetchCurrency {
 
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful() && response.body() != null) {
-                System.out.println(response.body().string());
+                return response.body().string(); // ✅ returnerar bara här
             } else {
-                System.out.println("Request failed: " + response.code());
+                throw new RuntimeException("Request failed: " + response.code());
             }
         }
     }
