@@ -22,13 +22,13 @@ public class App {
         System.out.println("2. SEK to USD");
         System.out.print("Enter your choice (1 or 2): ");
         int choice = scanner.nextInt();
-        System.out.println("insert your number ");
+        System.out.println("insert the amount you want to convert");
         double amount = scanner.nextDouble();
 
         switch (choice) {
             case 1:
                 double usdToSek = service.convertUsdToSek(amount);
-                System.out.printf("amount: %.2f kr%n", usdToSek);
+                System.out.printf(amount + " USD = %.2f kr%n ", usdToSek);
                 break;
             case 2:
                 double sekToUsd = service.convertSekToUsd(amount);
@@ -36,7 +36,7 @@ public class App {
                 break;
             case 3:
                double euroToSek = service.convertEuroToSek(amount);
-                System.out.printf("100 EUR = %.2f SEK%n", euroToSek);
+                System.out.printf(amount +  " EUR = %.2f SEK%n", euroToSek);
                 break;
             default:
                 System.out.println("%.2f Invalid option.");
