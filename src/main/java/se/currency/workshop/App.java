@@ -20,6 +20,7 @@ public class App {
         System.out.println("Choose an option:");
         System.out.println("1. USD to SEK");
         System.out.println("2. SEK to USD");
+        System.out.println("3. EUR to SEK");
         System.out.print("Enter your choice (1 or 2): ");
         int choice = scanner.nextInt();
         System.out.println("insert the amount you want to convert");
