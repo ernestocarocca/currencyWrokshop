@@ -24,8 +24,9 @@ public class CurrencyService {
 
     }
     /**
-     * Övergripande konverteringsmetod, från valfri valuta till valfri annan (SEK, USD, EUR).
+     * General conversion method, from any currency to any other (SEK, USD, EUR).
      */
+
     public  double convert( String from , String to, double amount) throws IllegalAccessException{
    from = from.toUpperCase();
    to = to.toUpperCase();
