@@ -1,6 +1,9 @@
 package se.currency.workshop.service;
 
+import se.currency.workshop.CurrencyPairs;
 import se.currency.workshop.model.CurrencyResponse;
+
+import java.util.Locale;
 
 public class CurrencyService {
     private CurrencyResponse currencyResponse;
@@ -9,43 +12,39 @@ public class CurrencyService {
         this.currencyResponse = response;
     }
 
-    public double convertUsdToSek(double amountUsd) throws IllegalAccessException {
+    private double getRate(String pair) throws IllegalAccessException {
         if (currencyResponse == null || currencyResponse.getQuotes() == null) {
-            throw new IllegalAccessException("KursData saknas");
+            throw new IllegalAccessException("kursdata saknas");
         }
-
-        Double rate = currencyResponse.getQuotes().get("USDSEK");
+        Double rate = currencyResponse.getQuotes().get(pair);
         if (rate == null) {
-            throw new IllegalArgumentException("Kurs för USDSEK saknas");
+            throw new IllegalAccessException("kurs för " + pair + "saknas");
         }
+        return currencyResponse.getQuotes().get(pair);
 
-        return amountUsd * rate;
     }
-
-    public double convertSekToUsd(double amountSek) throws IllegalAccessException {
-        if (currencyResponse == null || currencyResponse.getQuotes() == null) {
-            throw new IllegalAccessException("KursData saknas");
+    /**
+     * Övergripande konverteringsmetod, från valfri valuta till valfri annan (SEK, USD, EUR).
+     */
+    public  double convert( String from , String to, double amount) throws IllegalAccessException{
+   from = from.toUpperCase();
+   to = to.toUpperCase();
+   if (from.equals(to)){
+       return amount;
+   }
+        if (from.equals("USD")) {
+            return amount * getRate("USD" + to);
         }
-
-        Double rate = currencyResponse.getQuotes().get("USDSEK");
-        if (rate == null) {
-            throw new IllegalArgumentException("Kurs för USDSEK saknas");
+        if (to.equals("USD")) {
+            return amount / getRate("USD" + from);
         }
-
-        return amountSek / rate;
+        double amountInUsd = amount / getRate("USD" + from);
+        return amountInUsd * getRate("USD" + to);
     }
-
-    public double convertEuroToSek(double amountInEuro) throws IllegalAccessException {
-        if (currencyResponse == null || currencyResponse.getQuotes() == null) {
-            throw new IllegalStateException("Currency data is missing.");
-        }
-        Double usdSek = currencyResponse.getQuotes().get("USDSEK");
-        Double usdEur = currencyResponse.getQuotes().get("USDEUR");
-        if (usdSek == null || usdEur == null) {
-            throw new IllegalArgumentException("Missing exchange rate for USDSEK or USDEUR.");
-        }
-
-        double eurSek = usdSek / usdEur;
-        return amountInEuro * eurSek;
-}
+    public double convert(double amount, String toCurrency) throws IllegalAccessException {
+        return convert("USD", toCurrency, amount);
+    }
+    public double convert(double amount) throws IllegalAccessException {
+        return convert("SEK", "USD", amount);
+    }
 }

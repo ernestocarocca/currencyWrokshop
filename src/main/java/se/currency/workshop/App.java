@@ -28,16 +28,17 @@ public class App {
 
         switch (choice) {
             case 1:
-                double usdToSek = service.convertUsdToSek(amount);
+                double usdToSek = service.convert("USD", "SEK", amount);
                 System.out.printf(amount + " USD = %.2f kr%n ", usdToSek);
                 break;
             case 2:
-                double sekToUsd = service.convertSekToUsd(amount);
+                double sekToUsd = service.convert("SEK", "", amount);
                 System.out.printf("%.2f SEK = %.2f USD%n", amount, sekToUsd);
+
                 break;
             case 3:
-               double euroToSek = service.convertEuroToSek(amount);
-                System.out.printf(amount +  " EUR = %.2f SEK%n", euroToSek);
+                double euroToSek = service.convert("EUR", "SEK", amount);
+                System.out.printf(amount + " EUR = %.2f SEK%n", euroToSek);
                 break;
             default:
                 System.out.println("%.2f Invalid option.");
